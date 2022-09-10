@@ -1,4 +1,4 @@
-__title__ = "システムカメラ記憶 Ver.1.0"
+__title__ = "システムカメラ記憶くん Ver.1.0"
 __author__ = "Caldia"
 __update__  = "2022/09/11"
 __eventUID__ = 1100003
