@@ -13,29 +13,26 @@ vrmapi.LOG("import " + __title__)
 # main
 def vrmevent(obj,ev,param):
     if ev == 'init':
-        # フレームイベント登録
-        obj.SetEventFrame()
-        # 毎秒カウント
+        # タイマーイベント登録
         obj.SetEventTimer(1.0, __eventUID__)
-        # ロード
+        # システムカメラ設定ロード
         loadCamera()
-        # 前回値
+        # 前回値保存
         d = obj.GetDict()
         d['scas_pos'] = vrmapi.SYSTEM().GetGlobalCameraPos()
         d['scas_fov'] = vrmapi.SYSTEM().GetGlobalCameraFOV()
-    elif ev == 'timer':
-        if param['eventUID'] == __eventUID__:
-            # システムカメラ設定を取得
-            pos = vrmapi.SYSTEM().GetGlobalCameraPos()
-            fov = vrmapi.SYSTEM().GetGlobalCameraFOV()
-            # 前回値
-            d = obj.GetDict()
-            # 前回値と異なる
-            if d['scas_pos'] != pos or d['scas_fov'] != fov:
-                saveCamera(pos, fov)
-                # 前回値更新
-                d['scas_pos'] = vrmapi.SYSTEM().GetGlobalCameraPos()
-                d['scas_fov'] = vrmapi.SYSTEM().GetGlobalCameraFOV()
+    elif ev == 'timer' and param['eventUID'] == __eventUID__:
+        # システムカメラ設定取得
+        pos = vrmapi.SYSTEM().GetGlobalCameraPos()
+        fov = vrmapi.SYSTEM().GetGlobalCameraFOV()
+        # 前回値と異なる
+        d = obj.GetDict()
+        if d['scas_pos'] != pos or d['scas_fov'] != fov:
+            # 設定ファイル保存
+            saveCamera(pos, fov)
+            # 前回値更新
+            d['scas_pos'] = vrmapi.SYSTEM().GetGlobalCameraPos()
+            d['scas_fov'] = vrmapi.SYSTEM().GetGlobalCameraFOV()
 
 
 def saveCamera(pos, fov):
@@ -48,7 +45,7 @@ def saveCamera(pos, fov):
     saveDic = {}
     saveDic['scas_pos'] = pos.copy()
     saveDic['scas_fov'] = fov
-    # レイアウト名のjsonファイルへ保存
+    # jsonファイルへ保存
     with open(path, 'w') as f:
         json.dump(saveDic, f, indent=1)
         vrmapi.LOG(path + " へ設定保存")
@@ -61,17 +58,17 @@ def loadCamera():
         vrmapi.LOG("前回値ファイルがありません。-> " + path)
         return
     vrmapi.LOG(path + " から設定読み込み")
-    # レイアウト名のjsonファイルを読み込み
+    # jsonファイルを読み込み
     loadDic = {}
     with open(path) as f:
         loadDic = json.load(f)
-
     if 'scas_pos' in loadDic:
+        # 位置・向きを設定
         vrmapi.SYSTEM().SetGlobalCameraPos(loadDic['scas_pos'])
     else:
         vrmapi.LOG("scas_posがありません。")
-
     if 'scas_fov' in loadDic:
+        # FOVを設定
         vrmapi.SYSTEM().SetGlobalCameraFOV(loadDic['scas_fov'])
     else:
         vrmapi.LOG("scas_fovがありません。")
