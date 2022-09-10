@@ -24,7 +24,6 @@ def vrmevent(obj,ev,param):
         d['scas_pos'] = vrmapi.SYSTEM().GetGlobalCameraPos()
         d['scas_fov'] = vrmapi.SYSTEM().GetGlobalCameraFOV()
     elif ev == 'timer':
-        global __eventUID__
         if param['eventUID'] == __eventUID__:
             # システムカメラ設定を取得
             pos = vrmapi.SYSTEM().GetGlobalCameraPos()
