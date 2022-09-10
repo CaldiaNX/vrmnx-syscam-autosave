@@ -1,7 +1,7 @@
-# VRMNXカメラオートセーブくん
+# VRMNXシステムカメラ記憶くん
 
 ## 概要
-「カメラオートセーブくん」は「[鉄道模型シミュレーターNX](http://www.imagic.co.jp/hobby/products/vrmnx/ "鉄道模型シミュレーターNX")」（VRMNX）のシステムカメラ情報を自動記録するスクリプトです。
+「システムカメラ記憶くん」は「[鉄道模型シミュレーターNX](http://www.imagic.co.jp/hobby/products/vrmnx/ "鉄道模型シミュレーターNX")」（VRMNX）のシステムカメラ情報を自動記録するスクリプトです。
 
 ## ダウンロード
 - [syscam_autosave.py](https://raw.githubusercontent.com/CaldiaNX/vrmnx-syscam-autosave/main/syscam_autosave.py)
@@ -44,7 +44,7 @@ def vrmevent(obj,ev,param):
 ファイル読み込みに成功するとビュワー起動直後にスクリプトログへ下記メッセージが表示されます。
 
 ```
-import カメラオートセーブくん Ver.x.x
+import システムカメラ記憶くん Ver.x.x
 ```
 
 システムカメラの位置・向き・FOV情報を1秒毎に確認し、前回差があればjsonファイルへセーブし、次回ビュワー起動時に前回記録情報をロードします。  
